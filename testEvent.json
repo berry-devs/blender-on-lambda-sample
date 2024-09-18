@@ -1,0 +1,8 @@
+{
+  "bucket_name": "your-bucket-name",
+  "obj_key": "sample_obj.obj",
+  "mtl_key": "sample_obj.mtl",
+  "texture_key": "sample_obj.jpg",
+  "upload_dst_key": "test_result.png",
+  "img_size": 512
+}
