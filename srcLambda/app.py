@@ -1,9 +1,10 @@
 import os
 from uuid import uuid4
 import shutil
+from typing import Any
 
 import boto3
-from .invoke_blender_rendering import invoke_blender_rendering
+from invoke_blender_rendering import invoke_blender_rendering
 
 
 def download(bucket_name: str, key: str, file_path: str):
@@ -19,7 +20,7 @@ def upload(bucket_name: str, key: str, file_path: str):
     s3.upload_file(file_path, bucket_name, key)
 
 
-def lambda_handler(event: dict[str, any]) -> dict[str, str]:
+def lambda_handler(event: dict[str, Any], context: Any) -> dict[str, str]:
     # イベントの内容を取得
     bucket_name = event.get('bucket_name')
     assert isinstance(bucket_name, str)
@@ -37,7 +38,6 @@ def lambda_handler(event: dict[str, any]) -> dict[str, str]:
     assert isinstance(upload_dst_key, str)
 
     img_size = event.get('img_size', 512)
-
     assert isinstance(img_size, int) or isinstance(img_size, float)
     img_size: int = int(img_size)
 
@@ -55,7 +55,7 @@ def lambda_handler(event: dict[str, any]) -> dict[str, str]:
         local_obj_path = f'{src_path}/{os.path.basename(obj_key)}'
         local_mtl_path = f'{src_path}/{os.path.basename(mtl_key)}'
         local_texture_path = f'{src_path}/{os.path.basename(texture_key)}'
-        local_dst_path = f'{dst_path}/{os.path.basename(obj_key)}'
+        local_dst_path = f'{dst_path}/{os.path.basename(upload_dst_key)}'
 
         # データをダウンロード
         download(bucket_name, obj_key, local_obj_path)

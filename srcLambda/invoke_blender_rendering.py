@@ -42,5 +42,5 @@ def get_cmd(
         "--obj_path", obj_path,
         "--dst_path", dst_path,
         "--template_blend_path", template_blend_path,
-        "--outputSize", img_size
+        "--outputSize", f"{img_size}"
     ]
